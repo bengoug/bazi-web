@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏮 Calculateur BAZI</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Georgia', serif;
@@ -28,7 +23,7 @@
             border: 2px solid #c4a44a;
             border-radius: 15px;
             padding: 40px;
-            max-width: 600px;
+            max-width: 650px;
             width: 100%;
             box-shadow: 0 0 30px rgba(196, 164, 74, 0.3);
         }
@@ -47,9 +42,7 @@
             font-style: italic;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         label {
             display: block;
@@ -74,14 +67,8 @@
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
         }
 
-        .row {
-            display: flex;
-            gap: 15px;
-        }
-
-        .row .form-group {
-            flex: 1;
-        }
+        .row { display: flex; gap: 15px; }
+        .row .form-group { flex: 1; }
 
         button {
             width: 100%;
@@ -99,41 +86,42 @@
 
         button:hover {
             background: linear-gradient(135deg, #ffd700, #c4a44a);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            transform: translateY(-2px);
         }
 
         button:disabled {
-            opacity: 0.5;
-            cursor: wait;
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        #loading {
-            display: none;
+        .loading {
             text-align: center;
-            padding: 20px;
             color: #c4a44a;
             font-size: 1.2em;
-        }
-
-        #resultat {
+            margin-top: 20px;
             display: none;
+        }
+
+        .error {
+            background: rgba(180, 0, 0, 0.3);
+            border: 1px solid #ff4444;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #ff9999;
+            display: none;
+        }
+
+        .resultat {
             margin-top: 30px;
-            padding: 25px;
-            background: rgba(26, 10, 10, 0.8);
-            border: 1px solid #c4a44a;
-            border-radius: 10px;
+            display: none;
         }
 
-        #resultat h2 {
-            color: #c4a44a;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .pilier {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
+        .piliers-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
             margin-bottom: 20px;
         }
 
@@ -141,206 +129,252 @@
             background: rgba(196, 164, 74, 0.1);
             border: 1px solid #c4a44a;
             border-radius: 10px;
-            padding: 15px;
-            min-width: 120px;
+            padding: 15px 10px;
+            text-align: center;
         }
 
         .pilier-titre {
-            color: #c4a44a;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 0.9em;
+            font-size: 0.75em;
+            color: #a89070;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .pilier-tronc {
-            font-size: 1.5em;
+            font-size: 2em;
+            color: #ffd700;
             margin-bottom: 5px;
         }
 
         .pilier-branche {
-            font-size: 1.5em;
+            font-size: 2em;
+            color: #c4a44a;
+            margin-bottom: 8px;
         }
 
-        #erreur {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid #ff4444;
+        .pilier-infos {
+            font-size: 0.7em;
+            color: #a89070;
+            line-height: 1.4;
+        }
+
+        .section-title {
+            color: #c4a44a;
+            font-size: 1.1em;
+            margin: 20px 0 10px 0;
+            border-bottom: 1px solid #c4a44a44;
+            padding-bottom: 5px;
+        }
+
+        .dayun-list {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .dayun-item {
+            background: rgba(196, 164, 74, 0.1);
+            border: 1px solid #c4a44a55;
             border-radius: 8px;
-            color: #ff6666;
+            padding: 10px;
             text-align: center;
+            min-width: 70px;
+            flex-shrink: 0;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
+        .dayun-age {
+            font-size: 0.7em;
+            color: #a89070;
+            margin-bottom: 4px;
+        }
+
+        .dayun-gz {
+            font-size: 1.2em;
+            color: #ffd700;
+            margin-bottom: 4px;
+        }
+
+        .dayun-el {
+            font-size: 0.65em;
+            color: #a89070;
+        }
+
+        pre {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
             font-size: 0.8em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            color: #a89070;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏮 Calculateur BAZI</h1>
-        <p class="subtitle">Les Quatre Piliers du Destin — 八字</p>
+<div class="container">
+    <h1>🏮 Calculateur BaZi</h1>
+    <p class="subtitle">八字命理 · Analyse des Huit Caractères</p>
 
-        <form id="baziForm">
-            <div class="row">
-                <div class="form-group">
-                    <label>📅 Jour</label>
-                    <input type="number" id="jour" min="1" max="31" value="15" required>
-                </div>
-                <div class="form-group">
-                    <label>📅 Mois</label>
-                    <input type="number" id="mois" min="1" max="12" value="5" required>
-                </div>
-                <div class="form-group">
-                    <label>📅 Année</label>
-                    <input type="number" id="annee" min="1900" max="2100" value="1990" required>
-                </div>
+    <form id="baziForm">
+        <div class="row">
+            <div class="form-group">
+                <label>📅 Année</label>
+                <input type="number" id="annee" value="1990" min="1900" max="2100">
             </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <label>🕐 Heure de naissance</label>
-                    <select id="heure">
-                        <option value="0">00h - Minuit</option>
-                        <option value="1">01h</option>
-                        <option value="2">02h</option>
-                        <option value="3">03h</option>
-                        <option value="4">04h</option>
-                        <option value="5">05h</option>
-                        <option value="6">06h</option>
-                        <option value="7">07h</option>
-                        <option value="8" selected>08h</option>
-                        <option value="9">09h</option>
-                        <option value="10">10h</option>
-                        <option value="11">11h</option>
-                        <option value="12">12h</option>
-                        <option value="13">13h</option>
-                        <option value="14">14h</option>
-                        <option value="15">15h</option>
-                        <option value="16">16h</option>
-                        <option value="17">17h</option>
-                        <option value="18">18h</option>
-                        <option value="19">19h</option>
-                        <option value="20">20h</option>
-                        <option value="21">21h</option>
-                        <option value="22">22h</option>
-                        <option value="23">23h</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>👤 Genre</label>
-                    <select id="genre">
-                        <option value="homme">Homme</option>
-                        <option value="femme">Femme</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label>📅 Mois</label>
+                <input type="number" id="mois" value="5" min="1" max="12">
             </div>
-
-            <button type="submit" id="btnCalculer">
-                🐉 Calculer mon thème BAZI
-            </button>
-        </form>
-
-        <div id="loading">⏳ Calcul en cours...</div>
-
-        <div id="erreur"></div>
-
-        <div id="resultat">
-            <h2>🐉 Votre Thème BAZI</h2>
-            <div class="pilier" id="piliers"></div>
-            <div id="details"></div>
         </div>
 
-        <p class="footer">Propulsé par API BAZI — Railway 🚂</p>
+        <div class="row">
+            <div class="form-group">
+                <label>📅 Jour</label>
+                <input type="number" id="jour" value="15" min="1" max="31">
+            </div>
+            <div class="form-group">
+                <label>⏰ Heure</label>
+                <input type="number" id="heure" value="8" min="0" max="23">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>⚧ Genre</label>
+            <select id="genre">
+                <option value="M">👨 Masculin</option>
+                <option value="F">👩 Féminin</option>
+            </select>
+        </div>
+
+        <button type="submit" id="btn">🔮 Calculer mon BaZi</button>
+    </form>
+
+    <div class="loading" id="loading">⏳ Calcul en cours...</div>
+    <div class="error" id="erreur"></div>
+
+    <div class="resultat" id="resultat">
+        <div class="section-title">🏮 Les Quatre Piliers</div>
+        <div class="piliers-grid" id="piliers"></div>
+
+        <div id="dayun"></div>
+        <div id="details"></div>
     </div>
+</div>
 
-    <script>
-        // ⚠️ VOTRE URL API RAILWAY ICI :
-        const API_URL = "https://web-production-99663.up.railway.app/api/bazi";
+<script>
+    // ✅ URL CORRECTE
+    const API_URL = "https://web-production-99663.up.railway.app/bazi";
 
-        document.getElementById('baziForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+    document.getElementById('baziForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-            const btn = document.getElementById('btnCalculer');
-            const loading = document.getElementById('loading');
-            const resultat = document.getElementById('resultat');
-            const erreur = document.getElementById('erreur');
+        const btn     = document.getElementById('btn');
+        const loading = document.getElementById('loading');
+        const erreur  = document.getElementById('erreur');
 
-            // Cacher les anciens résultats
-            resultat.style.display = 'none';
-            erreur.style.display = 'none';
-            loading.style.display = 'block';
-            btn.disabled = true;
+        btn.disabled = true;
+        loading.style.display = 'block';
+        erreur.style.display  = 'none';
+        document.getElementById('resultat').style.display = 'none';
 
-            const data = {
-                jour: parseInt(document.getElementById('jour').value),
-                mois: parseInt(document.getElementById('mois').value),
-                annee: parseInt(document.getElementById('annee').value),
-                heure: parseInt(document.getElementById('heure').value),
-                genre: document.getElementById('genre').value,
-                calendrier: "gregorien"
-            };
+        // ✅ PARAMÈTRES CORRECTS (year/month/day/hour/gender)
+        const data = {
+            year:   parseInt(document.getElementById('annee').value),
+            month:  parseInt(document.getElementById('mois').value),
+            day:    parseInt(document.getElementById('jour').value),
+            hour:   parseInt(document.getElementById('heure').value),
+            gender: document.getElementById('genre').value
+        };
 
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
 
-                const result = await response.json();
+            const result = await response.json();
 
-                if (response.ok) {
-                    afficherResultat(result);
-                } else {
-                    erreur.textContent = "❌ Erreur : " + (result.erreur || "Calcul impossible");
-                    erreur.style.display = 'block';
-                }
-            } catch (err) {
-                erreur.textContent = "❌ Impossible de contacter l'API. Vérifiez votre connexion.";
+            if (result.success) {
+                afficherResultat(result);
+            } else {
+                erreur.textContent = "❌ Erreur : " + (result.error || "Calcul impossible");
                 erreur.style.display = 'block';
             }
 
-            loading.style.display = 'none';
-            btn.disabled = false;
-        });
+        } catch (err) {
+            erreur.textContent = "❌ Impossible de contacter l'API : " + err.message;
+            erreur.style.display = 'block';
+        }
 
-        function afficherResultat(data) {
-            const piliers = document.getElementById('piliers');
-            const details = document.getElementById('details');
+        loading.style.display = 'none';
+        btn.disabled = false;
+    });
 
-            // Afficher les 4 piliers
-            const noms = ['Heure', 'Jour', 'Mois', 'Année'];
-            const cles = ['heure', 'jour', 'mois', 'annee'];
+    function afficherResultat(data) {
 
-            let html = '';
+        // ========== QUATRE PILIERS ==========
+        const piliers = document.getElementById('piliers');
+        const noms = ['Année', 'Mois', 'Jour', 'Heure'];
+        const cles = ['annee', 'mois', 'jour', 'heure'];
+
+        let html = '';
+        if (data.piliers) {
             cles.forEach((cle, i) => {
-                if (data[cle]) {
+                const p = data.piliers[cle];
+                if (p) {
                     html += `
                         <div class="pilier-item">
                             <div class="pilier-titre">${noms[i]}</div>
-                            <div class="pilier-tronc">${data[cle].tronc || '?'}</div>
-                            <div class="pilier-branche">${data[cle].branche || '?'}</div>
-                        </div>
-                    `;
+                            <div class="pilier-tronc">${p.tronc || '?'}</div>
+                            <div class="pilier-branche">${p.branche || '?'}</div>
+                            <div class="pilier-infos">
+                                ${p.tronc_element || ''} ${p.tronc_pol || ''}<br>
+                                ${p.branche_element || ''}<br>
+                                ${p.animal || ''}
+                            </div>
+                        </div>`;
                 }
             });
-            piliers.innerHTML = html;
-
-            // Afficher les détails JSON bruts
-            details.innerHTML = `
-                <details style="margin-top:15px; color:#a89070;">
-                    <summary style="cursor:pointer; color:#c4a44a;">📋 Voir les données complètes</summary>
-                    <pre style="margin-top:10px; font-size:0.85em; overflow-x:auto; white-space:pre-wrap;">${JSON.stringify(data, null, 2)}</pre>
-                </details>
-            `;
-
-            document.getElementById('resultat').style.display = 'block';
+        } else {
+            // Fallback si piliers non parsés
+            html = `<p style="color:#a89070; grid-column:span 4;">
+                        Piliers bruts : ${data.quatre_piliers || 'N/A'}
+                    </p>`;
         }
-    </script>
+        piliers.innerHTML = html;
+
+        // ========== GRANDES FORTUNES ==========
+        const dayunDiv = document.getElementById('dayun');
+        if (data.dayun && data.dayun.length > 0) {
+            let dyHtml = data.dayun.slice(0, 8).map(d => `
+                <div class="dayun-item">
+                    <div class="dayun-age">${d.age} ans</div>
+                    <div class="dayun-gz">${d.ganzhi}</div>
+                    <div class="dayun-el">${d.tronc_element || ''}</div>
+                    <div class="dayun-el">${d.animal || ''}</div>
+                </div>`).join('');
+
+            dayunDiv.innerHTML = `
+                <div class="section-title">🌊 Grandes Fortunes</div>
+                <div class="dayun-list">${dyHtml}</div>`;
+        } else {
+            dayunDiv.innerHTML = '';
+        }
+
+        // ========== DONNÉES BRUTES ==========
+        document.getElementById('details').innerHTML = `
+            <details style="margin-top:15px;">
+                <summary style="cursor:pointer; color:#c4a44a; padding:8px 0;">
+                    📋 Voir toutes les données JSON
+                </summary>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            </details>`;
+
+        document.getElementById('resultat').style.display = 'block';
+    }
+</script>
 </body>
 </html>
