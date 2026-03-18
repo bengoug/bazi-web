@@ -1,0 +1,418 @@
+/* ========== BaZi Manager — Dark Theme ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #1a1a2e;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ========== Layout ========== */
+.app-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.2em;
+    color: #d4a373;
+    margin-bottom: 4px;
+}
+
+header .subtitle {
+    color: #a0aec0;
+    font-size: 0.95em;
+}
+
+/* ========== Tabs ========== */
+.tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #2d2d4a;
+    padding-bottom: 0;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #a0aec0;
+    padding: 10px 20px;
+    font-size: 0.95em;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.tab-btn:hover {
+    color: #d4a373;
+}
+
+.tab-btn.active {
+    color: #d4a373;
+    border-bottom-color: #d4a373;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ========== Cards ========== */
+.card {
+    background: #16213e;
+    border: 1px solid #2d2d4a;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    color: #d4a373;
+    font-size: 1.2em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ========== Form Elements ========== */
+label {
+    display: block;
+    color: #d4a373;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.9em;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #2d2d4a;
+    border-radius: 8px;
+    background: #0f3460;
+    color: #e2e8f0;
+    font-size: 0.95em;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #d4a373;
+    box-shadow: 0 0 0 2px rgba(212, 163, 115, 0.2);
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-row > .form-group {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group-inline {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.form-group-inline input,
+.form-group-inline select {
+    flex: 1;
+}
+
+.form-group-inline button {
+    white-space: nowrap;
+}
+
+/* ========== Buttons ========== */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #d4a373, #8b6914);
+    color: #1a1a2e;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #e8b888, #a07d28);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #2d2d4a;
+    color: #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background: #3d3d5a;
+}
+
+.btn-danger {
+    background: #e53e3e;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c53030;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* ========== Drop Zone ========== */
+.drop-zone {
+    border: 2px dashed #d4a373;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(212, 163, 115, 0.05);
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+    background: rgba(212, 163, 115, 0.12);
+    border-color: #e8b888;
+}
+
+.drop-zone .drop-icon {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.drop-zone .drop-text {
+    color: #a0aec0;
+    font-size: 0.95em;
+}
+
+.drop-zone .drop-text strong {
+    color: #d4a373;
+}
+
+.drop-zone .file-name {
+    margin-top: 10px;
+    color: #d4a373;
+    font-weight: 600;
+}
+
+/* ========== Preview Area ========== */
+.preview-area {
+    margin-top: 20px;
+    display: none;
+}
+
+.preview-area.visible {
+    display: block;
+}
+
+.preview-frame {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #2d2d4a;
+    border-radius: 8px;
+    background: white;
+}
+
+/* ========== File List ========== */
+.person-group {
+    margin-bottom: 24px;
+}
+
+.person-group h3 {
+    color: #d4a373;
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #2d2d4a;
+}
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0f3460;
+    border: 1px solid #2d2d4a;
+    border-radius: 8px;
+    padding: 10px 16px;
+}
+
+.file-item .file-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-item .file-type-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-source {
+    background: #2d2d4a;
+    color: #a0aec0;
+}
+
+.badge-extraction {
+    background: rgba(212, 163, 115, 0.2);
+    color: #d4a373;
+}
+
+.file-item .file-actions {
+    display: flex;
+    gap: 6px;
+}
+
+/* ========== Status Messages ========== */
+.status {
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-top: 12px;
+    font-size: 0.9em;
+    display: none;
+}
+
+.status.visible {
+    display: block;
+}
+
+.status-success {
+    background: rgba(56, 161, 105, 0.15);
+    border: 1px solid #38a169;
+    color: #68d391;
+}
+
+.status-error {
+    background: rgba(229, 62, 62, 0.15);
+    border: 1px solid #e53e3e;
+    color: #fc8181;
+}
+
+.status-info {
+    background: rgba(49, 130, 206, 0.15);
+    border: 1px solid #3182ce;
+    color: #63b3ed;
+}
+
+/* ========== Config Section ========== */
+.config-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #a0aec0;
+    font-size: 0.85em;
+    margin-bottom: 16px;
+    user-select: none;
+}
+
+.config-toggle:hover {
+    color: #d4a373;
+}
+
+.config-panel {
+    display: none;
+    margin-bottom: 16px;
+}
+
+.config-panel.visible {
+    display: block;
+}
+
+/* ========== Spinner ========== */
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(212, 163, 115, 0.3);
+    border-top-color: #d4a373;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ========== Empty State ========== */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #a0aec0;
+}
+
+.empty-state .empty-icon {
+    font-size: 3em;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .tabs {
+        flex-wrap: wrap;
+    }
+
+    .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
