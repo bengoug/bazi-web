@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏮 Calculateur BAZI</title>
+    <title>🏮 Calculateur BaZi — Les Quatre Piliers du Destin</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -22,21 +22,21 @@
             background: rgba(45, 20, 20, 0.9);
             border: 2px solid #c4a44a;
             border-radius: 15px;
-            padding: 40px;
-            max-width: 750px;
+            padding: 35px;
+            max-width: 1000px;
             width: 100%;
             box-shadow: 0 0 30px rgba(196, 164, 74, 0.3);
         }
 
-        h1 { text-align: center; color: #c4a44a; font-size: 2em; margin-bottom: 10px; }
-        .subtitle { text-align: center; color: #a89070; margin-bottom: 30px; font-style: italic; }
-        .form-group { margin-bottom: 20px; }
+        h1 { text-align: center; color: #c4a44a; font-size: 2em; margin-bottom: 8px; }
+        .subtitle { text-align: center; color: #a89070; margin-bottom: 28px; font-style: italic; }
 
-        label { display: block; color: #c4a44a; margin-bottom: 5px; font-weight: bold; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; color: #c4a44a; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
 
         input, select {
             width: 100%;
-            padding: 12px;
+            padding: 11px;
             border: 1px solid #c4a44a;
             border-radius: 8px;
             background: rgba(26, 10, 10, 0.8);
@@ -50,10 +50,10 @@
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
         }
 
-        .row { display: flex; gap: 15px; }
-        .row .form-group { flex: 1; }
+        .row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .row .form-group { flex: 1; min-width: 110px; }
 
-        button {
+        button.principal {
             width: 100%;
             padding: 15px;
             background: linear-gradient(135deg, #c4a44a, #8b6914);
@@ -63,14 +63,11 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
             transition: all 0.3s;
         }
 
-        button:hover { background: linear-gradient(135deg, #ffd700, #c4a44a); transform: translateY(-2px); }
-        button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-        .loading { text-align: center; color: #c4a44a; font-size: 1.2em; margin-top: 20px; display: none; }
+        button.principal:hover { background: linear-gradient(135deg, #ffd700, #c4a44a); transform: translateY(-2px); }
 
         .error {
             background: rgba(180, 0, 0, 0.3);
@@ -86,132 +83,76 @@
 
         .section-title {
             color: #c4a44a;
-            font-size: 1.1em;
-            margin: 20px 0 10px 0;
+            font-size: 1.15em;
+            margin: 26px 0 12px 0;
             border-bottom: 1px solid #c4a44a44;
             padding-bottom: 5px;
         }
 
-        /* PILIERS */
-        .piliers-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+        /* ===== TABLEAU DES PILIERS ===== */
+        .chart-wrap { overflow-x: auto; }
+
+        table.chart {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 640px;
         }
 
-        .pilier-item {
-            background: rgba(196, 164, 74, 0.1);
-            border: 1px solid #c4a44a;
-            border-radius: 10px;
-            padding: 15px 10px;
-            text-align: center;
-        }
-
-        .pilier-item.jour-pilier {
-            border-color: #ffd700;
-            background: rgba(255, 215, 0, 0.15);
-        }
-
-        .pilier-titre { font-size: 0.75em; color: #a89070; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .pilier-tronc { font-size: 2.2em; color: #ffd700; margin-bottom: 2px; }
-        .pilier-branche { font-size: 2.2em; color: #c4a44a; margin-bottom: 8px; }
-        .pilier-element-tronc { font-size: 0.75em; color: #a89070; margin-bottom: 2px; }
-        .pilier-element-branche { font-size: 0.75em; color: #a89070; margin-bottom: 2px; }
-        .pilier-animal { font-size: 0.8em; color: #c4a44a; margin-bottom: 4px; }
-        .pilier-shishen {
-            font-size: 0.7em;
-            background: rgba(196, 164, 74, 0.2);
-            border-radius: 4px;
-            padding: 2px 6px;
-            color: #ffd700;
-            margin-top: 4px;
-            display: inline-block;
-        }
-
-        /* WUXING */
-        .wuxing-grid {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-        }
-
-        .wuxing-item {
-            flex: 1;
-            min-width: 80px;
-            background: rgba(196, 164, 74, 0.1);
+        table.chart th, table.chart td {
             border: 1px solid #c4a44a55;
-            border-radius: 8px;
-            padding: 10px;
+            padding: 8px 6px;
             text-align: center;
+            vertical-align: middle;
         }
 
-        .wuxing-nom { font-size: 0.8em; color: #c4a44a; margin-bottom: 4px; }
-        .wuxing-val { font-size: 1.4em; color: #ffd700; font-weight: bold; }
-
-        .wuxing-barre-fond {
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            height: 6px;
-            margin-top: 6px;
-            overflow: hidden;
-        }
-
-        .wuxing-barre {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s;
-        }
-
-        /* DAYUN */
-        .dayun-list {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-
-        .dayun-item {
-            background: rgba(196, 164, 74, 0.1);
-            border: 1px solid #c4a44a55;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            min-width: 75px;
-            flex-shrink: 0;
-            cursor: default;
-            transition: all 0.2s;
-        }
-
-        .dayun-item:hover {
-            background: rgba(196, 164, 74, 0.25);
-            border-color: #c4a44a;
-        }
-
-        .dayun-age { font-size: 0.7em; color: #a89070; margin-bottom: 4px; }
-        .dayun-gz { font-size: 1.3em; color: #ffd700; margin-bottom: 4px; }
-        .dayun-el { font-size: 0.65em; color: #a89070; line-height: 1.4; }
-
-        /* TEXTES */
-        .texte-classique {
-            background: rgba(0,0,0,0.3);
-            border-left: 3px solid #c4a44a;
-            padding: 15px;
-            border-radius: 0 8px 8px 0;
+        table.chart th {
+            background: rgba(196, 164, 74, 0.15);
+            color: #c4a44a;
             font-size: 0.85em;
-            color: #d4c4a4;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            margin-bottom: 10px;
         }
 
-        /* INFO BOXES */
+        table.chart td.libelle {
+            background: rgba(196, 164, 74, 0.08);
+            color: #a89070;
+            font-size: 0.75em;
+            width: 90px;
+            line-height: 1.5;
+        }
+
+        table.chart col.col-jour { background: rgba(255, 215, 0, 0.07); }
+
+        .gros-car { font-size: 2.4em; line-height: 1.15; }
+        .sous-car { font-size: 0.72em; color: #a89070; line-height: 1.5; }
+        .shishen-tag {
+            display: inline-block;
+            font-size: 0.78em;
+            background: rgba(196, 164, 74, 0.18);
+            border: 1px solid #c4a44a44;
+            border-radius: 4px;
+            padding: 2px 7px;
+            color: #ffd700;
+        }
+        .maitre-tag {
+            display: inline-block;
+            font-size: 0.78em;
+            background: rgba(255, 215, 0, 0.25);
+            border: 1px solid #ffd700;
+            border-radius: 4px;
+            padding: 2px 7px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .cache-item { font-size: 0.95em; line-height: 1.7; }
+        .cache-item .ss { font-size: 0.72em; color: #a89070; }
+        .nayin-cell { font-size: 0.8em; color: #d4c4a4; line-height: 1.5; }
+        .etoile { display: inline-block; font-size: 0.7em; color: #e8b4f0; line-height: 1.8; margin: 0 3px; }
+
+        /* ===== INFO BOXES ===== */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
 
         .info-box {
@@ -223,260 +164,680 @@
         }
 
         .info-box-titre { font-size: 0.7em; color: #a89070; margin-bottom: 4px; }
-        .info-box-val { font-size: 1em; color: #ffd700; }
+        .info-box-val { font-size: 1em; color: #ffd700; line-height: 1.4; }
 
-        pre {
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
+        /* ===== WUXING ===== */
+        .wuxing-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .wuxing-item {
+            flex: 1;
+            min-width: 90px;
+            background: rgba(196, 164, 74, 0.1);
+            border: 1px solid #c4a44a55;
             border-radius: 8px;
-            font-size: 0.75em;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            color: #a89070;
+            padding: 10px;
+            text-align: center;
         }
 
-        details summary {
+        .wuxing-nom { font-size: 0.8em; color: #c4a44a; margin-bottom: 4px; }
+        .wuxing-val { font-size: 1.4em; font-weight: bold; }
+        .wuxing-barre-fond {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            height: 6px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        .wuxing-barre { height: 100%; border-radius: 4px; transition: width 0.5s; }
+
+        /* ===== FORCE ===== */
+        .force-barre-fond {
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            height: 14px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .force-barre {
+            height: 100%;
+            background: linear-gradient(90deg, #2196f3, #4caf50, #f44336);
+            border-radius: 6px;
+        }
+        .force-texte { font-size: 0.85em; color: #d4c4a4; margin-top: 6px; }
+
+        /* ===== DA YUN ===== */
+        .dayun-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; }
+
+        .dayun-item {
+            background: rgba(196, 164, 74, 0.1);
+            border: 1px solid #c4a44a55;
+            border-radius: 8px;
+            padding: 10px 8px;
+            text-align: center;
+            min-width: 86px;
+            flex-shrink: 0;
             cursor: pointer;
-            color: #c4a44a;
-            padding: 8px 0;
-            user-select: none;
+            transition: all 0.2s;
         }
 
-        details summary:hover { color: #ffd700; }
+        .dayun-item:hover { background: rgba(196, 164, 74, 0.25); border-color: #c4a44a; }
+        .dayun-item.actif { background: rgba(255, 215, 0, 0.2); border-color: #ffd700; }
+
+        .dayun-age { font-size: 0.68em; color: #a89070; margin-bottom: 4px; }
+        .dayun-gz { font-size: 1.5em; margin-bottom: 4px; }
+        .dayun-el { font-size: 0.62em; color: #a89070; line-height: 1.5; }
+        .dayun-ss { font-size: 0.62em; color: #ffd700; margin-top: 3px; }
+
+        .liunian-panel { display: none; margin-top: 10px; }
+        .liunian-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(86px, 1fr));
+            gap: 6px;
+        }
+        .liunian-item {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid #c4a44a33;
+            border-radius: 6px;
+            padding: 7px 4px;
+            text-align: center;
+        }
+        .liunian-an { font-size: 0.68em; color: #a89070; }
+        .liunian-gz { font-size: 1.15em; margin: 3px 0; }
+        .liunian-ss { font-size: 0.6em; color: #a89070; }
+
+        .note {
+            font-size: 0.72em;
+            color: #8a7a60;
+            margin-top: 22px;
+            line-height: 1.6;
+            border-top: 1px solid #c4a44a33;
+            padding-top: 10px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>🏮 Calculateur BaZi</h1>
-    <p class="subtitle">八字命理 · Analyse des Huit Caractères</p>
+    <p class="subtitle">八字命理 · Les Quatre Piliers du Destin · Analyse des Huit Caractères</p>
 
     <form id="baziForm">
         <div class="row">
             <div class="form-group">
                 <label>📅 Année</label>
-                <input type="number" id="annee" value="1990" min="1900" max="2100">
+                <input type="number" id="annee" value="1990" min="1900" max="2100" required>
             </div>
             <div class="form-group">
                 <label>📅 Mois</label>
-                <input type="number" id="mois" value="5" min="1" max="12">
+                <input type="number" id="mois" value="5" min="1" max="12" required>
+            </div>
+            <div class="form-group">
+                <label>📅 Jour</label>
+                <input type="number" id="jour" value="15" min="1" max="31" required>
             </div>
         </div>
 
         <div class="row">
             <div class="form-group">
-                <label>📅 Jour</label>
-                <input type="number" id="jour" value="15" min="1" max="31">
+                <label>⏰ Heure</label>
+                <input type="number" id="heure" value="8" min="0" max="23" required>
             </div>
             <div class="form-group">
-                <label>⏰ Heure</label>
-                <input type="number" id="heure" value="8" min="0" max="23">
+                <label>⏰ Minute</label>
+                <input type="number" id="minute" value="0" min="0" max="59" required>
+            </div>
+            <div class="form-group">
+                <label>🌍 Fuseau horaire</label>
+                <select id="fuseau"></select>
+            </div>
+            <div class="form-group">
+                <label>⚧ Genre</label>
+                <select id="genre">
+                    <option value="M">👨 Masculin</option>
+                    <option value="F">👩 Féminin</option>
+                </select>
             </div>
         </div>
 
-        <div class="form-group">
-            <label>⚧ Genre</label>
-            <select id="genre">
-                <option value="M">👨 Masculin</option>
-                <option value="F">👩 Féminin</option>
-            </select>
-        </div>
-
-        <button type="submit" id="btn">🔮 Calculer mon BaZi</button>
+        <button type="submit" class="principal">🔮 Calculer mon BaZi</button>
     </form>
 
-    <div class="loading" id="loading">⏳ Calcul en cours...</div>
     <div class="error" id="erreur"></div>
     <div class="resultat" id="resultat"></div>
+
+    <p class="note">
+        ☯ Calcul effectué entièrement dans votre navigateur (termes solaires calculés par astronomie,
+        précision de quelques minutes). Indiquez l'heure légale de naissance et le fuseau horaire
+        correspondant (France : +1 en hiver, +2 en été). Le changement de jour est fixé à 23 h
+        (heure Zi tardive rattachée au jour suivant). L'évaluation de la force du Maître du Jour
+        est une estimation simplifiée, donnée à titre indicatif.
+    </p>
 </div>
 
 <script>
-    const API_URL = "https://bazi-production-99fb.up.railway.app/bazi";
+/* ================================================================
+   MOTEUR BAZI — calcul 100 % côté client
+   ================================================================ */
+const Bazi = (() => {
 
-    const COULEURS_ELEMENT = {
-        'Métal': '#c0c0c0',
+    // ---------- Données fondamentales ----------
+    const GAN = [
+        { c: '甲', py: 'Jiǎ',  el: 'Bois',  yy: 'Yang' },
+        { c: '乙', py: 'Yǐ',   el: 'Bois',  yy: 'Yin'  },
+        { c: '丙', py: 'Bǐng', el: 'Feu',   yy: 'Yang' },
+        { c: '丁', py: 'Dīng', el: 'Feu',   yy: 'Yin'  },
+        { c: '戊', py: 'Wù',   el: 'Terre', yy: 'Yang' },
+        { c: '己', py: 'Jǐ',   el: 'Terre', yy: 'Yin'  },
+        { c: '庚', py: 'Gēng', el: 'Métal', yy: 'Yang' },
+        { c: '辛', py: 'Xīn',  el: 'Métal', yy: 'Yin'  },
+        { c: '壬', py: 'Rén',  el: 'Eau',   yy: 'Yang' },
+        { c: '癸', py: 'Guǐ',  el: 'Eau',   yy: 'Yin'  }
+    ];
+
+    const ZHI = [
+        { c: '子', py: 'Zǐ',   el: 'Eau',   animal: 'Rat 🐀'     },
+        { c: '丑', py: 'Chǒu', el: 'Terre', animal: 'Buffle 🐂'  },
+        { c: '寅', py: 'Yín',  el: 'Bois',  animal: 'Tigre 🐅'   },
+        { c: '卯', py: 'Mǎo',  el: 'Bois',  animal: 'Lapin 🐇'   },
+        { c: '辰', py: 'Chén', el: 'Terre', animal: 'Dragon 🐉'  },
+        { c: '巳', py: 'Sì',   el: 'Feu',   animal: 'Serpent 🐍' },
+        { c: '午', py: 'Wǔ',   el: 'Feu',   animal: 'Cheval 🐎'  },
+        { c: '未', py: 'Wèi',  el: 'Terre', animal: 'Chèvre 🐐'  },
+        { c: '申', py: 'Shēn', el: 'Métal', animal: 'Singe 🐒'   },
+        { c: '酉', py: 'Yǒu',  el: 'Métal', animal: 'Coq 🐓'     },
+        { c: '戌', py: 'Xū',   el: 'Terre', animal: 'Chien 🐕'   },
+        { c: '亥', py: 'Hài',  el: 'Eau',   animal: 'Cochon 🐖'  }
+    ];
+
+    // Troncs cachés (cang gan) : indices dans GAN, ordre qi principal → résiduel
+    const CACHES = {
+        0:  [9],          // 子 : 癸
+        1:  [5, 9, 7],    // 丑 : 己 癸 辛
+        2:  [0, 2, 4],    // 寅 : 甲 丙 戊
+        3:  [1],          // 卯 : 乙
+        4:  [4, 1, 9],    // 辰 : 戊 乙 癸
+        5:  [2, 4, 6],    // 巳 : 丙 戊 庚
+        6:  [3, 5],       // 午 : 丁 己
+        7:  [5, 3, 1],    // 未 : 己 丁 乙
+        8:  [6, 8, 4],    // 申 : 庚 壬 戊
+        9:  [7],          // 酉 : 辛
+        10: [4, 7, 3],    // 戌 : 戊 辛 丁
+        11: [8, 0]        // 亥 : 壬 甲
+    };
+
+    const SHENG = { 'Bois': 'Feu', 'Feu': 'Terre', 'Terre': 'Métal', 'Métal': 'Eau', 'Eau': 'Bois' };
+    const KE    = { 'Bois': 'Terre', 'Terre': 'Eau', 'Eau': 'Feu', 'Feu': 'Métal', 'Métal': 'Bois' };
+
+    const DIX_DIEUX = {
+        BJ: { zh: '比肩', py: 'Bǐ Jiān',    fr: 'Ami' },
+        JC: { zh: '劫财', py: 'Jié Cái',    fr: 'Rival' },
+        SS: { zh: '食神', py: 'Shí Shén',   fr: 'Gourmet' },
+        SG: { zh: '伤官', py: 'Shāng Guān', fr: 'Rebelle' },
+        PC: { zh: '偏财', py: 'Piān Cái',   fr: 'Richesse indirecte' },
+        ZC: { zh: '正财', py: 'Zhèng Cái',  fr: 'Richesse directe' },
+        QS: { zh: '七杀', py: 'Qī Shā',     fr: 'Sept Tueurs' },
+        ZG: { zh: '正官', py: 'Zhèng Guān', fr: 'Pouvoir direct' },
+        PY: { zh: '偏印', py: 'Piān Yìn',   fr: 'Sceau indirect' },
+        ZY: { zh: '正印', py: 'Zhèng Yìn',  fr: 'Sceau direct' }
+    };
+
+    // Na Yin : 30 entrées, une par paire de ganzhi
+    const NAYIN = [
+        '海中金 · Or au fond de la mer',     '炉中火 · Feu de fournaise',
+        '大林木 · Bois de la grande forêt',  '路旁土 · Terre du bord du chemin',
+        '剑锋金 · Métal du fil de l’épée', '山头火 · Feu du sommet',
+        '涧下水 · Eau du torrent',           '城头土 · Terre des remparts',
+        '白蜡金 · Métal de cire blanche',    '杨柳木 · Bois du saule',
+        '泉中水 · Eau de source',            '屋上土 · Terre du toit',
+        '霹雳火 · Feu de la foudre',         '松柏木 · Bois du pin et du cyprès',
+        '长流水 · Eau du long fleuve',       '沙中金 · Or dans le sable',
+        '山下火 · Feu au pied du mont',      '平地木 · Bois de la plaine',
+        '壁上土 · Terre du mur',             '金箔金 · Or en feuille',
+        '覆灯火 · Feu de la lampe',          '天河水 · Eau de la Voie lactée',
+        '大驿土 · Terre du grand relais',    '钗钏金 · Or des bijoux',
+        '桑柘木 · Bois du mûrier',           '大溪水 · Eau du grand ruisseau',
+        '沙中土 · Terre dans le sable',      '天上火 · Feu céleste',
+        '石榴木 · Bois du grenadier',        '大海水 · Eau de l’océan'
+    ];
+
+    // ---------- Astronomie : longitude solaire apparente (Meeus) ----------
+    function jdUT(y, m, d, hDec) {
+        if (m <= 2) { y -= 1; m += 12; }
+        const A = Math.floor(y / 100);
+        const B = 2 - A + Math.floor(A / 4);
+        return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1))
+             + d + B - 1524.5 + hDec / 24;
+    }
+
+    const rad = Math.PI / 180;
+
+    function longitudeSolaire(jd) {
+        const T  = (jd - 2451545.0) / 36525;
+        const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
+        const M  = (357.52911 + 35999.05029 * T - 0.0001537 * T * T) * rad;
+        const C  = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M)
+                 + (0.019993 - 0.000101 * T) * Math.sin(2 * M)
+                 + 0.000289 * Math.sin(3 * M);
+        const omega = (125.04 - 1934.136 * T) * rad;
+        let lon = L0 + C - 0.00569 - 0.00478 * Math.sin(omega);
+        lon %= 360;
+        return lon < 0 ? lon + 360 : lon;
+    }
+
+    // Trouve le jd où la longitude solaire vaut cible (degrés), proche de jdGuess
+    function chercherTerme(cible, jdGuess) {
+        let jd = jdGuess;
+        for (let i = 0; i < 6; i++) {
+            const L = longitudeSolaire(jd);
+            let diff = ((cible - L + 540) % 360) - 180;
+            jd += diff / 0.98565;
+        }
+        return jd;
+    }
+
+    // Prochain "jie" (terme nodal, longitude ≡ 15° mod 30) après jd
+    function prochainJie(jd) {
+        const L = longitudeSolaire(jd);
+        let delta = (15 - (L % 30) + 30) % 30;
+        if (delta < 1e-7) delta = 30;
+        return chercherTerme((L + delta) % 360, jd + delta / 0.98565);
+    }
+
+    // Dernier "jie" avant (ou égal à) jd
+    function dernierJie(jd) {
+        const L = longitudeSolaire(jd);
+        const delta = ((L % 30) - 15 + 30) % 30;
+        let cible = L - delta;
+        cible = ((cible % 360) + 360) % 360;
+        return chercherTerme(cible, jd - delta / 0.98565);
+    }
+
+    // ---------- Dix Dieux ----------
+    function dixDieux(maitreIdx, ganIdx) {
+        const dEl = GAN[maitreIdx].el, tEl = GAN[ganIdx].el;
+        const meme = (maitreIdx % 2) === (ganIdx % 2);
+        if (dEl === tEl)        return meme ? 'BJ' : 'JC';
+        if (SHENG[dEl] === tEl) return meme ? 'SS' : 'SG';
+        if (KE[dEl] === tEl)    return meme ? 'PC' : 'ZC';
+        if (KE[tEl] === dEl)    return meme ? 'QS' : 'ZG';
+        return meme ? 'PY' : 'ZY';
+    }
+
+    // ---------- Étoiles symboliques (Shen Sha) ----------
+    const SAN_HE = [
+        { groupe: [8, 0, 4],  taohua: 9,  yima: 2,  huagai: 4  },   // 申子辰
+        { groupe: [2, 6, 10], taohua: 3,  yima: 8,  huagai: 10 },   // 寅午戌
+        { groupe: [5, 9, 1],  taohua: 6,  yima: 11, huagai: 1  },   // 巳酉丑
+        { groupe: [11, 3, 7], taohua: 0,  yima: 5,  huagai: 7  }    // 亥卯未
+    ];
+    const TIANYI   = { 0: [1, 7], 4: [1, 7], 6: [1, 7], 1: [0, 8], 5: [0, 8],
+                       2: [11, 9], 3: [11, 9], 8: [3, 5], 9: [3, 5], 7: [2, 6] };
+    const WENCHANG = { 0: 5, 1: 6, 2: 8, 3: 9, 4: 8, 5: 9, 6: 11, 7: 0, 8: 2, 9: 3 };
+    const LUSHEN   = { 0: 2, 1: 3, 2: 5, 3: 6, 4: 5, 5: 6, 6: 8, 7: 9, 8: 11, 9: 0 };
+    const YANGREN  = { 0: 3, 2: 6, 4: 6, 6: 9, 8: 0 };
+
+    function grouperSanHe(branche) {
+        return SAN_HE.find(g => g.groupe.includes(branche));
+    }
+
+    function etoilesPilier(brancheIdx, ctx) {
+        const e = [];
+        if ((TIANYI[ctx.jourGan] || []).includes(brancheIdx)) e.push('天乙贵人 Noble Céleste');
+        if (WENCHANG[ctx.jourGan] === brancheIdx) e.push('文昌 Wen Chang (Études)');
+        if (LUSHEN[ctx.jourGan] === brancheIdx)   e.push('禄神 Lu Shen (Prospérité)');
+        if (YANGREN[ctx.jourGan] === brancheIdx)  e.push('羊刃 Yang Ren (Lame)');
+        for (const base of [ctx.anZhi, ctx.jourZhi]) {
+            const g = grouperSanHe(base);
+            if (!g) continue;
+            if (g.taohua === brancheIdx && !e.includes('桃花 Fleur de Pêcher')) e.push('桃花 Fleur de Pêcher');
+            if (g.yima   === brancheIdx && !e.includes('驿马 Cheval Voyageur')) e.push('驿马 Cheval Voyageur');
+            if (g.huagai === brancheIdx && !e.includes('华盖 Hua Gai (Arts)'))  e.push('华盖 Hua Gai (Arts)');
+        }
+        if (ctx.kongWang.includes(brancheIdx)) e.push('空亡 Vide (Kong Wang)');
+        return e;
+    }
+
+    // ---------- Calcul principal ----------
+    function calculer(annee, mois, jour, heure, minute, genre, fuseau) {
+        const hDecLocal = heure + minute / 60;
+        const jdNaissUT = jdUT(annee, mois, jour, hDecLocal) - fuseau / 24;
+
+        // --- Pilier de l'année (frontière : Li Chun, longitude 315°) ---
+        const liChun = chercherTerme(315, jdUT(annee, 2, 4, 0) - fuseau / 24);
+        const anneeBazi = jdNaissUT >= liChun ? annee : annee - 1;
+        const anIdx = ((anneeBazi - 4) % 60 + 60) % 60;
+        const anGan = anIdx % 10, anZhi = anIdx % 12;
+
+        // --- Pilier du mois (termes nodaux, 寅 commence à Li Chun) ---
+        const lonNaiss = longitudeSolaire(jdNaissUT);
+        const moisDepuisYin = Math.floor((((lonNaiss - 315) % 360) + 360) % 360 / 30);
+        const moisZhi = (2 + moisDepuisYin) % 12;
+        const moisGan = ((anGan % 5) * 2 + 2 + moisDepuisYin) % 10;   // règle des Cinq Tigres
+
+        // --- Pilier du jour (ancre vérifiée : 01/01/2000 = 戊午) ---
+        let jdnLocal = Math.floor(jdUT(annee, mois, jour, 0) + 0.5);
+        if (hDecLocal >= 23) jdnLocal += 1;   // heure Zi tardive → jour suivant
+        const jourGan = ((jdnLocal + 9) % 10 + 10) % 10;
+        const jourZhi = ((jdnLocal + 1) % 12 + 12) % 12;
+
+        // --- Pilier de l'heure (règle des Cinq Rats) ---
+        const heureZhi = Math.floor(((hDecLocal + 1) % 24) / 2);
+        const heureGan = ((jourGan % 5) * 2 + heureZhi) % 10;
+
+        // --- Kong Wang (vide) d'après la décade du pilier du jour ---
+        const jourIdx60 = (() => {
+            for (let i = 0; i < 60; i++) if (i % 10 === jourGan && i % 12 === jourZhi) return i;
+            return 0;
+        })();
+        const debutXun = jourIdx60 - (jourIdx60 % 10);
+        const kongWang = [(debutXun % 12 + 10) % 12, (debutXun % 12 + 11) % 12];
+
+        // --- Tai Yuan (palais de la conception) ---
+        const taiYuan = { gan: (moisGan + 1) % 10, zhi: (moisZhi + 3) % 12 };
+
+        // --- Da Yun (piliers de chance) ---
+        const yangAnnee = anGan % 2 === 0;
+        const enAvant = (yangAnnee && genre === 'M') || (!yangAnnee && genre === 'F');
+        const jdTerme = enAvant ? prochainJie(jdNaissUT) : dernierJie(jdNaissUT);
+        const diffJours = Math.abs(jdTerme - jdNaissUT);
+        const ageDepart = diffJours / 3;                       // 3 jours = 1 an
+        const ageAns = Math.floor(ageDepart);
+        const ageMois = Math.round((ageDepart - ageAns) * 12);
+        const moisIdx60 = (() => {
+            for (let i = 0; i < 60; i++) if (i % 10 === moisGan && i % 12 === moisZhi) return i;
+            return 0;
+        })();
+
+        const dayun = [];
+        for (let n = 1; n <= 9; n++) {
+            const idx = ((moisIdx60 + (enAvant ? n : -n)) % 60 + 60) % 60;
+            const debut = ageAns + (n - 1) * 10;
+            dayun.push({
+                gan: idx % 10,
+                zhi: idx % 12,
+                idx60: idx,
+                ageDebut: debut,
+                ageMois: ageMois,
+                anneeDebut: annee + debut
+            });
+        }
+
+        // --- Comptage des Cinq Éléments (8 caractères visibles) ---
+        const wuxing = { 'Bois': 0, 'Feu': 0, 'Terre': 0, 'Métal': 0, 'Eau': 0 };
+        const piliers = [
+            { nom: 'Année', gan: anGan,    zhi: anZhi    },
+            { nom: 'Mois',  gan: moisGan,  zhi: moisZhi  },
+            { nom: 'Jour',  gan: jourGan,  zhi: jourZhi  },
+            { nom: 'Heure', gan: heureGan, zhi: heureZhi }
+        ];
+        piliers.forEach(p => {
+            wuxing[GAN[p.gan].el] += 1;
+            wuxing[ZHI[p.zhi].el] += 1;
+        });
+
+        // --- Force du Maître du Jour (estimation pondérée) ---
+        const elMaitre = GAN[jourGan].el;
+        const soutien = new Set([elMaitre, Object.keys(SHENG).find(k => SHENG[k] === elMaitre)]);
+        let scoreSoutien = 0, scoreTotal = 0;
+        piliers.forEach((p, i) => {
+            if (i !== 2) {   // tronc du jour = maître, non compté
+                scoreTotal += 1;
+                if (soutien.has(GAN[p.gan].el)) scoreSoutien += 1;
+            }
+            const poidsBranche = (i === 1) ? 3 : 1;   // la branche du mois domine
+            const caches = CACHES[p.zhi];
+            const poidsQi = [1, 0.5, 0.3];
+            caches.forEach((g, k) => {
+                const w = poidsBranche * (poidsQi[k] || 0.3);
+                scoreTotal += w;
+                if (soutien.has(GAN[g].el)) scoreSoutien += w;
+            });
+        });
+        const forcePct = Math.round(100 * scoreSoutien / scoreTotal);
+        const forceLabel = forcePct < 35 ? 'Faible 弱' : forcePct <= 50 ? 'Modéré 中' : 'Fort 强';
+
+        return {
+            anneeBazi, piliers,
+            anGan, anZhi, moisGan, moisZhi, jourGan, jourZhi, heureGan, heureZhi,
+            jourIdx60, moisIdx60, kongWang, taiYuan,
+            dayun, enAvant, ageAns, ageMois,
+            wuxing, forcePct, forceLabel
+        };
+    }
+
+    function nayinDe(idx60) { return NAYIN[Math.floor(idx60 / 2)]; }
+
+    function idx60De(gan, zhi) {
+        for (let i = 0; i < 60; i++) if (i % 10 === gan && i % 12 === zhi) return i;
+        return 0;
+    }
+
+    function ganzhiAnnee(anneeCal) {
+        const idx = ((anneeCal - 4) % 60 + 60) % 60;
+        return { gan: idx % 10, zhi: idx % 12, idx60: idx };
+    }
+
+    return { GAN, ZHI, CACHES, DIX_DIEUX, NAYIN, SHENG, KE,
+             calculer, dixDieux, etoilesPilier, nayinDe, idx60De, ganzhiAnnee,
+             longitudeSolaire, jdUT, chercherTerme };
+})();
+
+/* ================================================================
+   INTERFACE
+   ================================================================ */
+if (typeof document !== 'undefined') {
+
+    const COULEURS = {
+        'Métal': '#d8d8d8',
         'Bois':  '#4caf50',
         'Eau':   '#2196f3',
         'Feu':   '#f44336',
         'Terre': '#ff9800'
     };
 
-    document.getElementById('baziForm').addEventListener('submit', async function(e) {
+    // Fuseaux horaires
+    (() => {
+        const sel = document.getElementById('fuseau');
+        const offsets = [-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,3.5,4,4.5,5,5.5,6,7,8,9,9.5,10,11,12,13,14];
+        offsets.forEach(o => {
+            const opt = document.createElement('option');
+            opt.value = o;
+            const h = Math.trunc(o), m = Math.abs(o - h) * 60;
+            opt.textContent = 'UTC' + (o >= 0 ? '+' : '−') + Math.abs(h) + (m ? ':30' : '');
+            if (o === 1) { opt.selected = true; opt.textContent += ' (Paris hiver)'; }
+            if (o === 2) opt.textContent += ' (Paris été)';
+            if (o === 8) opt.textContent += ' (Chine)';
+            sel.appendChild(opt);
+        });
+    })();
+
+    function ganHTML(g, taille) {
+        const x = Bazi.GAN[g];
+        return `<div class="gros-car" style="color:${COULEURS[x.el]};font-size:${taille || 2.4}em">${x.c}</div>
+                <div class="sous-car">${x.py} · ${x.el} ${x.yy}</div>`;
+    }
+
+    function zhiHTML(z) {
+        const x = Bazi.ZHI[z];
+        return `<div class="gros-car" style="color:${COULEURS[x.el]}">${x.c}</div>
+                <div class="sous-car">${x.py} · ${x.el}<br>${x.animal}</div>`;
+    }
+
+    function ssTag(code) {
+        const d = Bazi.DIX_DIEUX[code];
+        return `<span class="shishen-tag" title="${d.py} — ${d.fr}">${d.zh}<br><span style="font-size:0.8em">${d.fr}</span></span>`;
+    }
+
+    document.getElementById('baziForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
-        const btn     = document.getElementById('btn');
-        const loading = document.getElementById('loading');
-        const erreur  = document.getElementById('erreur');
-        const resultat = document.getElementById('resultat');
-
-        btn.disabled = true;
-        loading.style.display = 'block';
-        erreur.style.display  = 'none';
-        resultat.style.display = 'none';
-
-        const data = {
-            year:   parseInt(document.getElementById('annee').value),
-            month:  parseInt(document.getElementById('mois').value),
-            day:    parseInt(document.getElementById('jour').value),
-            hour:   parseInt(document.getElementById('heure').value),
-            gender: document.getElementById('genre').value
-        };
-
+        const erreur = document.getElementById('erreur');
+        erreur.style.display = 'none';
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                afficherResultat(result);
-            } else {
-                erreur.textContent = "❌ Erreur : " + (result.error || "Calcul impossible");
-                erreur.style.display = 'block';
-            }
-
+            const r = Bazi.calculer(
+                parseInt(document.getElementById('annee').value),
+                parseInt(document.getElementById('mois').value),
+                parseInt(document.getElementById('jour').value),
+                parseInt(document.getElementById('heure').value),
+                parseInt(document.getElementById('minute').value),
+                document.getElementById('genre').value,
+                parseFloat(document.getElementById('fuseau').value)
+            );
+            afficher(r);
         } catch (err) {
-            erreur.textContent = "❌ Impossible de contacter l'API : " + err.message;
+            erreur.textContent = '❌ Erreur de calcul : ' + err.message;
             erreur.style.display = 'block';
         }
-
-        loading.style.display = 'none';
-        btn.disabled = false;
     });
 
-    function afficherResultat(data) {
-        let html = '';
+    function afficher(r) {
+        const ctx = {
+            jourGan: r.jourGan, jourZhi: r.jourZhi,
+            anZhi: r.anZhi, kongWang: r.kongWang
+        };
+        const ordre = [0, 1, 2, 3];   // Année, Mois, Jour, Heure
+        const noms = ['年柱 Année', '月柱 Mois', '日柱 Jour ★', '时柱 Heure'];
 
-        // ========== QUATRE PILIERS ==========
-        html += `<div class="section-title">🏮 Les Quatre Piliers</div>`;
-        html += `<div class="piliers-grid">`;
+        let html = `<div class="section-title">🏮 Les Quatre Piliers (四柱)</div>`;
+        html += `<div class="chart-wrap"><table class="chart">
+            <colgroup><col><col><col><col class="col-jour"><col></colgroup>
+            <tr><th></th>${ordre.map(i => `<th>${noms[i]}</th>`).join('')}</tr>`;
 
-        const noms = ['Année', 'Mois', 'Jour', 'Heure'];
-        const cles = ['annee', 'mois', 'jour', 'heure'];
+        // Dix Dieux des troncs
+        html += `<tr><td class="libelle">十神<br>Dieu</td>`;
+        ordre.forEach(i => {
+            const p = r.piliers[i];
+            html += `<td>${i === 2 ? '<span class="maitre-tag">日主 Maître du Jour</span>'
+                                    : ssTag(Bazi.dixDieux(r.jourGan, p.gan))}</td>`;
+        });
+        html += `</tr>`;
 
-        if (data.piliers) {
-            cles.forEach((cle, i) => {
-                const p = data.piliers[cle];
-                if (!p) return;
+        // Troncs célestes
+        html += `<tr><td class="libelle">天干<br>Tronc céleste</td>`;
+        ordre.forEach(i => { html += `<td>${ganHTML(r.piliers[i].gan)}</td>`; });
+        html += `</tr>`;
 
-                const couleurTronc = COULEURS_ELEMENT[p.tronc_element] || '#c4a44a';
-                const couleurBranche = COULEURS_ELEMENT[p.branche_element] || '#c4a44a';
-                const estJour = cle === 'jour';
+        // Branches terrestres
+        html += `<tr><td class="libelle">地支<br>Branche terrestre</td>`;
+        ordre.forEach(i => { html += `<td>${zhiHTML(r.piliers[i].zhi)}</td>`; });
+        html += `</tr>`;
 
-                html += `
-                <div class="pilier-item ${estJour ? 'jour-pilier' : ''}">
-                    <div class="pilier-titre">${noms[i]}${estJour ? ' ★' : ''}</div>
-                    <div class="pilier-tronc" style="color:${couleurTronc}">${p.tronc || '?'}</div>
-                    <div class="pilier-branche" style="color:${couleurBranche}">${p.branche || '?'}</div>
-                    <div class="pilier-element-tronc" style="color:${couleurTronc}">⬡ ${p.tronc_element || ''}</div>
-                    <div class="pilier-element-branche" style="color:${couleurBranche}">⬡ ${p.branche_element || ''}</div>
-                    <div class="pilier-animal">${p.animal || ''}</div>
-                    ${p.shishen_fr ? `<span class="pilier-shishen">${p.shishen_fr}</span>` : ''}
-                </div>`;
-            });
-        }
+        // Troncs cachés
+        html += `<tr><td class="libelle">藏干<br>Troncs cachés</td>`;
+        ordre.forEach(i => {
+            const caches = Bazi.CACHES[r.piliers[i].zhi];
+            html += `<td>` + caches.map(g => {
+                const x = Bazi.GAN[g];
+                const d = Bazi.DIX_DIEUX[Bazi.dixDieux(r.jourGan, g)];
+                return `<div class="cache-item"><span style="color:${COULEURS[x.el]}">${x.c}</span>
+                        <span class="ss">${d.zh} ${d.fr}</span></div>`;
+            }).join('') + `</td>`;
+        });
+        html += `</tr>`;
+
+        // Na Yin
+        html += `<tr><td class="libelle">纳音<br>Na Yin</td>`;
+        ordre.forEach(i => {
+            const p = r.piliers[i];
+            html += `<td class="nayin-cell">${Bazi.nayinDe(Bazi.idx60De(p.gan, p.zhi))}</td>`;
+        });
+        html += `</tr>`;
+
+        // Étoiles symboliques
+        html += `<tr><td class="libelle">神煞<br>Étoiles</td>`;
+        ordre.forEach(i => {
+            const et = (i === 2)
+                ? Bazi.etoilesPilier(r.piliers[i].zhi, { ...ctx, kongWang: [] })
+                : Bazi.etoilesPilier(r.piliers[i].zhi, ctx);
+            html += `<td>${et.length ? et.map(s => `<span class="etoile">${s}</span>`).join('<br>') : '<span style="color:#5a4a3a">—</span>'}</td>`;
+        });
+        html += `</tr></table></div>`;
+
+        // ===== Infos générales =====
+        const mj = Bazi.GAN[r.jourGan];
+        html += `<div class="section-title">ℹ️ Synthèse</div><div class="info-grid">`;
+        html += infoBox('☀️ Maître du Jour', `${mj.c} ${mj.py}<br>${mj.el} ${mj.yy}`);
+        html += infoBox('💪 Force (estim.)', `${r.forceLabel}<br>${r.forcePct} %`);
+        html += infoBox('🐲 Animal de l’année', Bazi.ZHI[r.anZhi].animal);
+        html += infoBox('🌱 Tai Yuan 胎元', Bazi.GAN[r.taiYuan.gan].c + Bazi.ZHI[r.taiYuan.zhi].c);
+        html += infoBox('🕳️ Vide 空亡', r.kongWang.map(z => Bazi.ZHI[z].c + ' ' + Bazi.ZHI[z].py).join(' · '));
+        html += infoBox('📅 Année BaZi', `${r.anneeBazi}<br>${Bazi.GAN[r.anGan].c}${Bazi.ZHI[r.anZhi].c}`);
         html += `</div>`;
 
-        // ========== INFOS GENERALES ==========
-        if (data.date_solaire || data.ming_gong || data.force !== undefined) {
-            html += `<div class="info-grid">`;
-            if (data.date_solaire) html += `<div class="info-box"><div class="info-box-titre">📅 Date solaire</div><div class="info-box-val">${data.date_solaire}</div></div>`;
-            if (data.ming_gong)    html += `<div class="info-box"><div class="info-box-titre">🏠 Palais du Destin</div><div class="info-box-val">${data.ming_gong}</div></div>`;
-            if (data.force !== undefined) html += `<div class="info-box"><div class="info-box-titre">💪 Force du Jour</div><div class="info-box-val">${data.force} / ${data.moyenne} moy.</div></div>`;
-            if (data.tai_yuan)     html += `<div class="info-box"><div class="info-box-titre">🌱 Taiyuan</div><div class="info-box-val">${data.tai_yuan}</div></div>`;
-            if (data.shen_gong)    html += `<div class="info-box"><div class="info-box-titre">🎯 Palais du Corps</div><div class="info-box-val">${data.shen_gong}</div></div>`;
-            if (data.date_lunaire) html += `<div class="info-box"><div class="info-box-titre">🌙 Date lunaire</div><div class="info-box-val">${data.date_lunaire}</div></div>`;
-            html += `</div>`;
-        }
+        // ===== Force barre =====
+        html += `<div class="force-barre-fond"><div class="force-barre" style="width:${r.forcePct}%"></div></div>
+                 <div class="force-texte">Soutien du Maître du Jour (même élément + élément ressource), branche du mois pondérée ×3.</div>`;
 
-        // ========== CINQ ELEMENTS ==========
-        if (data.wuxing) {
-            const wx = data.wuxing;
-            const total = wx.metal + wx.bois + wx.eau + wx.feu + wx.terre || 1;
-            const elements = [
-                { nom: '⚙️ Métal', val: wx.metal, el: 'Métal' },
-                { nom: '🌿 Bois',  val: wx.bois,  el: 'Bois'  },
-                { nom: '💧 Eau',   val: wx.eau,   el: 'Eau'   },
-                { nom: '🔥 Feu',   val: wx.feu,   el: 'Feu'   },
-                { nom: '🪨 Terre', val: wx.terre, el: 'Terre' }
-            ];
-
-            html += `<div class="section-title">🔯 Cinq Éléments (Wu Xing)</div>`;
-            html += `<div class="wuxing-grid">`;
-            elements.forEach(e => {
-                const pct = Math.round((e.val / total) * 100);
-                const couleur = COULEURS_ELEMENT[e.el] || '#c4a44a';
-                html += `
-                <div class="wuxing-item">
-                    <div class="wuxing-nom">${e.nom}</div>
-                    <div class="wuxing-val" style="color:${couleur}">${e.val}</div>
-                    <div class="wuxing-barre-fond">
-                        <div class="wuxing-barre" style="width:${pct}%; background:${couleur}"></div>
-                    </div>
-                </div>`;
-            });
-            html += `</div>`;
-        }
-
-        // ========== GRANDES FORTUNES ==========
-        if (data.dayun && data.dayun.length > 0) {
-            // Dédoublonner par age+ganzhi
-            const unique = [];
-            const vus = new Set();
-            data.dayun.forEach(d => {
-                const cle = `${d.age}-${d.ganzhi}`;
-                if (!vus.has(cle)) { vus.add(cle); unique.push(d); }
-            });
-
-            html += `<div class="section-title">🌊 Grandes Fortunes (Da Yun)</div>`;
-            html += `<div class="dayun-list">`;
-            unique.slice(0, 9).forEach(d => {
-                const couleur = COULEURS_ELEMENT[d.tronc_element] || '#ffd700';
-                html += `
-                <div class="dayun-item">
-                    <div class="dayun-age">${d.age} ans</div>
-                    <div class="dayun-gz" style="color:${couleur}">${d.ganzhi}</div>
-                    <div class="dayun-el">${d.tronc_element || ''}</div>
-                    <div class="dayun-el">${d.animal || ''}</div>
-                </div>`;
-            });
-            html += `</div>`;
-        }
-
-        // ========== TEXTES CLASSIQUES ==========
-        const textes = [
-            { cle: 'liu_shi_ri', titre: '📜 Six Dix Jours (口诀)' },
-            { cle: 'qiong_tong', titre: '📖 Qiong Tong Bao Jian (穷通宝鉴)' },
-            { cle: 'san_ming',   titre: '📚 San Ming Tong Hui (三命通会)' }
-        ];
-
-        textes.forEach(t => {
-            if (data[t.cle]) {
-                html += `
-                <details style="margin-top:15px;">
-                    <summary class="section-title" style="list-style:none; cursor:pointer;">
-                        ${t.titre} ▼
-                    </summary>
-                    <div class="texte-classique">${data[t.cle]}</div>
-                </details>`;
-            }
+        // ===== Wu Xing =====
+        html += `<div class="section-title">🔯 Les Cinq Éléments (五行)</div><div class="wuxing-grid">`;
+        const totalWx = Object.values(r.wuxing).reduce((a, b) => a + b, 0) || 1;
+        const icones = { 'Bois': '🌿', 'Feu': '🔥', 'Terre': '🪨', 'Métal': '⚙️', 'Eau': '💧' };
+        ['Bois', 'Feu', 'Terre', 'Métal', 'Eau'].forEach(el => {
+            const v = r.wuxing[el];
+            const pct = Math.round(v / totalWx * 100);
+            html += `<div class="wuxing-item">
+                <div class="wuxing-nom">${icones[el]} ${el}</div>
+                <div class="wuxing-val" style="color:${COULEURS[el]}">${v}</div>
+                <div class="wuxing-barre-fond"><div class="wuxing-barre" style="width:${pct}%;background:${COULEURS[el]}"></div></div>
+            </div>`;
         });
+        html += `</div>`;
 
-        // ========== DONNEES BRUTES ==========
-        html += `
-        <details style="margin-top:15px;">
-            <summary style="cursor:pointer; color:#c4a44a; padding:8px 0;">
-                📋 Voir toutes les données JSON ▼
-            </summary>
-            <pre>${JSON.stringify(data, null, 2)}</pre>
-        </details>`;
+        // ===== Da Yun =====
+        html += `<div class="section-title">🌊 Piliers de Chance (大运 Da Yun) — ${r.enAvant ? 'sens direct ▶' : 'sens inverse ◀'},
+                 départ à ${r.ageAns} an(s) ${r.ageMois} mois</div>`;
+        html += `<div class="dayun-list" id="dayunList">`;
+        r.dayun.forEach((d, n) => {
+            const g = Bazi.GAN[d.gan], z = Bazi.ZHI[d.zhi];
+            const dd = Bazi.DIX_DIEUX[Bazi.dixDieux(r.jourGan, d.gan)];
+            html += `<div class="dayun-item" data-n="${n}">
+                <div class="dayun-age">${d.ageDebut}–${d.ageDebut + 9} ans<br>${d.anneeDebut}</div>
+                <div class="dayun-gz"><span style="color:${COULEURS[g.el]}">${g.c}</span><span style="color:${COULEURS[z.el]}">${z.c}</span></div>
+                <div class="dayun-el">${g.py} ${z.py}<br>${Bazi.nayinDe(d.idx60).split(' · ')[0]}</div>
+                <div class="dayun-ss">${dd.zh} ${dd.fr}</div>
+            </div>`;
+        });
+        html += `</div>`;
+        html += `<div class="liunian-panel" id="liunianPanel"></div>`;
+        html += `<div class="force-texte">💡 Cliquez sur un pilier de chance pour voir ses années (流年 Liu Nian).</div>`;
 
-        const resultat = document.getElementById('resultat');
-        resultat.innerHTML = html;
-        resultat.style.display = 'block';
+        const res = document.getElementById('resultat');
+        res.innerHTML = html;
+        res.style.display = 'block';
+
+        // Liu Nian au clic
+        document.querySelectorAll('.dayun-item').forEach(elem => {
+            elem.addEventListener('click', () => {
+                document.querySelectorAll('.dayun-item').forEach(x => x.classList.remove('actif'));
+                elem.classList.add('actif');
+                const d = r.dayun[parseInt(elem.dataset.n)];
+                let h = `<div class="section-title" style="margin-top:10px;font-size:0.95em">
+                         📆 Années du pilier ${Bazi.GAN[d.gan].c}${Bazi.ZHI[d.zhi].c} (${d.anneeDebut}–${d.anneeDebut + 9})</div>
+                         <div class="liunian-grid">`;
+                for (let k = 0; k < 10; k++) {
+                    const anneeCal = d.anneeDebut + k;
+                    const gz = Bazi.ganzhiAnnee(anneeCal);
+                    const g = Bazi.GAN[gz.gan], z = Bazi.ZHI[gz.zhi];
+                    const dd = Bazi.DIX_DIEUX[Bazi.dixDieux(r.jourGan, gz.gan)];
+                    h += `<div class="liunian-item">
+                        <div class="liunian-an">${anneeCal} · ${d.ageDebut + k} ans</div>
+                        <div class="liunian-gz"><span style="color:${COULEURS[g.el]}">${g.c}</span><span style="color:${COULEURS[z.el]}">${z.c}</span></div>
+                        <div class="liunian-ss">${dd.zh}<br>${z.animal}</div>
+                    </div>`;
+                }
+                h += `</div>`;
+                const panel = document.getElementById('liunianPanel');
+                panel.innerHTML = h;
+                panel.style.display = 'block';
+                panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
     }
+
+    function infoBox(titre, val) {
+        return `<div class="info-box"><div class="info-box-titre">${titre}</div><div class="info-box-val">${val}</div></div>`;
+    }
+}
+
+if (typeof module !== 'undefined') module.exports = Bazi;
 </script>
 </body>
 </html>
